@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13
+    ports:
+      - "4231:5433"
+    restart: always
+    #container_name: db
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Morsko11
+  app:
+    build: .
+    #container_name: app
+    #restart: always
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    #наш app.yml внутри контейнера
+    environment:
+      #автоматическое обнаружение сервиса db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5433/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: Morsko11
